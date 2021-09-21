@@ -1,11 +1,6 @@
 use axum::*;
-use serde::*;
-use tokio::macros::support::Future;
 
-#[derive(Serialize)]
-pub struct HealthStatus {
-    status: bool,
-}
+use crate::domain::model::handler::health_check::*;
 
 pub struct HealthCheckController {}
 
@@ -14,8 +9,8 @@ impl HealthCheckController {
         HealthCheckController {}
     }
 
-    pub async fn get(&self) -> extract::Json<HealthStatus> {
-        extract::Json(HealthStatus {
+    pub async fn get(&self) -> extract::Json<HealthCheckResponse> {
+        extract::Json(HealthCheckResponse {
             status: true,
         })
     }

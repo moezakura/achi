@@ -1,5 +1,6 @@
 mod routes;
 mod handler;
+mod domain;
 
 #[tokio::main]
 async fn main() {
