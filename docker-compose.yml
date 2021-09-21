@@ -12,7 +12,7 @@ services:
       context: ./infrastructures/docker/rust
       target: "develop-stage"
     ports:
-      - 3000:3000
+      - 3000:${API_PORT}
     depends_on:
       - db
     volumes:

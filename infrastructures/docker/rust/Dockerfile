@@ -7,5 +7,4 @@ RUN cargo build --release
 
 FROM rust:1.55.0-slim-stretch
 COPY --from=build-stage /app/target/release/api .
-EXPOSE 3000
 CMD ["/usr/local/bin/api"]
