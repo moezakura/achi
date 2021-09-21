@@ -1,0 +1,39 @@
+version: "3.9"
+
+volumes:
+  mongo:
+  mongo_config:
+  cargo-cache:
+  target-cache:
+
+services:
+  api:
+    build:
+      context: ./infrastructures/docker/rust
+      target: "develop-stage"
+    ports:
+      - 3000:3000
+    depends_on:
+      - db
+    volumes:
+      - .:/app
+      - cargo-cache:/usr/local/cargo/registry
+      - target-cache:/app/target
+    environment:
+      MONGO_USERNAME: ${DB_USER}
+      MONGO_PASSWORD: ${DB_PASS}
+      MONGO_DATABASE: achi
+    command: /bin/sh -c "cargo watch -x run"
+
+  db:
+    image: mongo:latest
+    environment:
+      TZ: Asia/Tokyo
+      MONGO_INITDB_ROOT_USERNAME: ${DB_USER}
+      MONGO_INITDB_ROOT_PASSWORD: ${DB_PASS}
+      MONGO_INITDB_DATABASE: achi
+    ports:
+      - 27017:${DB_PORT:-27017}
+    volumes:
+      - mongo:/data/db
+      - mongo_config:/data/configdb
